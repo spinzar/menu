@@ -4,7 +4,7 @@
 ![Downloads](https://poser.pugx.org/spinzar/menu/d/total.svg)
 ![Build Status](https://travis-ci.com/spinzar/menu.svg)
 [![StyleCI](https://github.styleci.io/repos/310272296/shield?branch=main)](https://github.styleci.io/repos/310272296?branch=main)
-[![Quality](https://scrutinizer-ci.com/g/spinzar/menu/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/spinzar/menu)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/spinzar/menu/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/spinzar/menu/?branch=main)
 [![License](https://poser.pugx.org/spinzar/menu/license.svg)](LICENSE.md)
 
 This package intends to create and manage menus and sidebars for your Laravel app. It ships with ready-to-go presenters and you can create your own ones.

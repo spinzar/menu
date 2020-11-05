@@ -54,6 +54,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Credits
 
+- [Nassim Nasibullah](https://github.com/spinzar)
 - [Denis Duliçi](https://github.com/denisdulici)
 - [Nicolas Widart](https://github.com/nwidart)
 - [All Contributors](../../contributors)

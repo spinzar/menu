@@ -1,0 +1,45 @@
+{
+   "name":"spinzar/menu",
+   "description":"Laravel package for menu & sidebar.",
+   "keywords":["laravel", "menu", "navigation", "sidebar", "bootstrap"],
+   "license":"MIT",
+   "authors":[
+		{  
+			"name":"Nasibullah Nassim",
+			"email":"info@spinzar.co",
+			"homepage":"https://spinzar.co",
+			"role":"Developer"
+		}
+   ],
+   "require":{  
+		"php": "^7.1|^7.2|^7.3|^7.4",
+		"illuminate/config":">=5.5 <6.0",
+		"illuminate/support": "5.4.*|5.5.*|5.6.*|5.7.*|5.8.*|^6.0|^7.0|^8.0",
+		"illuminate/view":">=5.5 <6.0",
+		"laravelcollective/html":">=5.5 <6.0"
+   },
+   "require-dev":{  
+		"friendsofphp/php-cs-fixer": "^2.10",
+		"mockery/mockery":"0.9.*|^1.0|^1.1|^1.2|^1.3|^1.4",
+		"orchestra/testbench": "^3.0|^4.0|^5.0|^6.0",
+		"phpunit/phpunit":"^6.5|^7.5|^8.5|^9.3"
+   },
+   "autoload":{  
+		"psr-4":{  
+			"Spinzar\\Menu\\":"./src"
+		},
+		"files":[  
+			"src/helpers.php"
+		]
+   },
+   "extra":{  
+		"laravel":{  
+			"providers":[  
+				"Spinzar\\Menu\\Provider"
+			],
+			"aliases": {
+				"Menu": "Spinzar\\Menu\\Facade"
+			}
+		}
+   }
+}

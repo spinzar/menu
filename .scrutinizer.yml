@@ -1,4 +1,3 @@
-- run: sudo composer self-update
 checks:
     php: true
 filter:

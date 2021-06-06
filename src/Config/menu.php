@@ -3,7 +3,6 @@
 return [
 
     'styles' => [
-
         // Boostrap 3
         'bs3-navbar' => \Spinzar\Menu\Presenters\Bootstrap3\Navbar::class,
         'bs3-navbar-right' => \Spinzar\Menu\Presenters\Bootstrap3\NavbarRight::class,
@@ -13,13 +12,16 @@ return [
         'bs3-navmenu' => \Spinzar\Menu\Presenters\Bootstrap3\Nav::class,
 
         // Zurb
-        'zurbmenu' => \Spinzar\Menu\Presenters\Foundation\Zurb::class,
+        'zurb' => \Spinzar\Menu\Presenters\Foundation\Zurb::class,
 
         // Admin
         'adminlte' => \Spinzar\Menu\Presenters\Admin\Adminlte::class,
         'argon' => \Spinzar\Menu\Presenters\Admin\Argon::class,
         'metronic-horizontal' => \Spinzar\Menu\Presenters\Admin\MetronicHorizontal::class,
-        
+    ],
+
+    'home_urls' => [
+        '/',
     ],
 
     'ordering' => false,

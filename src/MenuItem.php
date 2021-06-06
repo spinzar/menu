@@ -6,6 +6,8 @@ use Closure;
 use Collective\Html\HtmlFacade as HTML;
 use Illuminate\Contracts\Support\Arrayable as ArrayableContract;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 /**
  * @property string url
@@ -79,11 +81,11 @@ class MenuItem implements ArrayableContract
      */
     protected static function setIconAttribute(array $properties)
     {
-        $icon = array_get($properties, 'attributes.icon');
+        $icon = Arr::get($properties, 'attributes.icon');
         if (!is_null($icon)) {
             $properties['icon'] = $icon;
 
-            array_forget($properties, 'attributes.icon');
+            Arr::forget($properties, 'attributes.icon');
 
             return $properties;
         }
@@ -100,7 +102,7 @@ class MenuItem implements ArrayableContract
      */
     protected static function getRandomName(array $attributes)
     {
-        return substr(md5(array_get($attributes, 'title', str_random(6))), 0, 5);
+        return substr(md5(Arr::get($attributes, 'title', Str::random(6))), 0, 5);
     }
 
     /**
@@ -160,8 +162,8 @@ class MenuItem implements ArrayableContract
         if (func_num_args() === 3) {
             $arguments = func_get_args();
 
-            $title = array_get($arguments, 0);
-            $attributes = array_get($arguments, 2);
+            $title = Arr::get($arguments, 0);
+            $attributes = Arr::get($arguments, 2);
 
             $properties = compact('title', 'attributes');
         }
@@ -191,9 +193,9 @@ class MenuItem implements ArrayableContract
             $arguments = func_get_args();
 
             return $this->add([
-                'route' => [array_get($arguments, 0), array_get($arguments, 2)],
-                'title' => array_get($arguments, 1),
-                'attributes' => array_get($arguments, 3),
+                'route' => [Arr::get($arguments, 0), Arr::get($arguments, 2)],
+                'title' => Arr::get($arguments, 1),
+                'attributes' => Arr::get($arguments, 3),
             ]);
         }
 
@@ -217,9 +219,9 @@ class MenuItem implements ArrayableContract
             $arguments = func_get_args();
 
             return $this->add([
-                'url' => array_get($arguments, 0),
-                'title' => array_get($arguments, 1),
-                'attributes' => array_get($arguments, 2),
+                'url' => Arr::get($arguments, 0),
+                'title' => Arr::get($arguments, 1),
+                'attributes' => Arr::get($arguments, 2),
             ]);
         }
 
@@ -326,6 +328,10 @@ class MenuItem implements ArrayableContract
             return route($this->route[0], $this->route[1]);
         }
 
+        if (empty($this->url)) {
+            return url("/#");
+        }
+
         return url($this->url);
     }
 
@@ -377,7 +383,7 @@ class MenuItem implements ArrayableContract
     {
         $attributes = $this->attributes ? $this->attributes : [];
 
-        array_forget($attributes, ['active', 'icon']);
+        Arr::forget($attributes, ['active', 'icon']);
 
         return HTML::attributes($attributes);
     }
@@ -459,7 +465,7 @@ class MenuItem implements ArrayableContract
             if ($child->inactive()) {
                 continue;
             }
-            
+
             if ($child->hasChilds()) {
                 if ($child->getActiveStateFromChilds()) {
                     return true;
@@ -503,7 +509,7 @@ class MenuItem implements ArrayableContract
      */
     public function getActiveAttribute()
     {
-        return array_get($this->attributes, 'active');
+        return Arr::get($this->attributes, 'active');
     }
 
     /**
@@ -513,7 +519,7 @@ class MenuItem implements ArrayableContract
      */
     public function getInactiveAttribute()
     {
-        return array_get($this->attributes, 'inactive');
+        return Arr::get($this->attributes, 'inactive');
     }
 
     /**
@@ -561,7 +567,7 @@ class MenuItem implements ArrayableContract
      */
     protected function getActiveStateFromRoute()
     {
-        return Request::is(str_replace(url('/') . '/', '', $this->getUrl()));
+        return $this->checkActiveState(str_replace(url('/') . '/', '', $this->getUrl()));
     }
 
     /**
@@ -571,7 +577,21 @@ class MenuItem implements ArrayableContract
      */
     protected function getActiveStateFromUrl()
     {
-        return Request::is($this->url);
+        return $this->checkActiveState($this->url);
+    }
+
+    /**
+     * Check the active state.
+     *
+     * @return bool
+     */
+    protected function checkActiveState($url)
+    {
+        if (empty($url) || in_array($url, config('menu.home_urls', ['/']))) {
+            return Request::is($url);
+        } else {
+            return Request::is($url, $url . '/*');
+        }
     }
 
     /**

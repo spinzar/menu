@@ -6,7 +6,7 @@ use Spinzar\Menu\MenuBuilder;
 use Spinzar\Menu\MenuItem;
 use Illuminate\Config\Repository;
 
-class MenuBuilderTest extends BaseTestCase
+class MenuBuilderTest extends TestCase
 {
     /** @test */
     public function it_makes_a_menu_item()

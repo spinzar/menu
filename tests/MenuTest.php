@@ -5,20 +5,20 @@ namespace Spinzar\Menu\Tests;
 use Spinzar\Menu\Menu;
 use Spinzar\Menu\MenuBuilder;
 
-class MenuTest extends BaseTestCase
+class MenuTest extends TestCase
 {
     /**
      * @var Menu
      */
     private $menu;
 
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
-        
+
         $this->menu = app(Menu::class);
     }
-    
+
     /** @test */
     public function it_generates_an_empty_menu()
     {

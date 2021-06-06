@@ -3,8 +3,9 @@
 namespace Spinzar\Menu;
 
 use Countable;
-use Illuminate\Config\Repository;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\View\Factory as ViewFactory;
+use Illuminate\Support\Arr;
 
 class MenuBuilder implements Countable
 {
@@ -98,7 +99,7 @@ class MenuBuilder implements Countable
     }
 
     /**
-     * Find menu item by given its title.
+     * Find menu item by title.
      *
      * @param  string        $title
      * @param  callable|null $callback
@@ -116,7 +117,7 @@ class MenuBuilder implements Countable
     }
 
     /**
-     * Find menu item by given key and value.
+     * Find menu item by key and value.
      *
      * @param  string $key
      * @param  string $value
@@ -127,6 +128,31 @@ class MenuBuilder implements Countable
         return collect($this->items)->filter(function ($item) use ($key, $value) {
             return $item->{$key} == $value;
         })->first();
+    }
+
+    /**
+     * Remove menu item by title.
+     *
+     * @param  string $title
+     * @return void
+     */
+    public function removeByTitle($title)
+    {
+        $this->removeBy('title', $title);
+    }
+
+    /**
+     * Remove menu item by key and value.
+     *
+     * @param  string $key
+     * @param  string $value
+     * @return void
+     */
+    public function removeBy($key, $value)
+    {
+        $this->items = collect($this->items)->reject(function ($item) use ($key, $value) {
+            return $item->{$key} == $value;
+        })->values()->all();
     }
 
     /**
@@ -290,9 +316,9 @@ class MenuBuilder implements Countable
             }
         } elseif (is_string($key)) {
             $matches = array();
-            
+
             preg_match_all('/{[\s]*?([^\s]+)[\s]*?}/i', $key, $matches, PREG_SET_ORDER);
-            
+
             foreach ($matches as $match) {
                 if (array_key_exists($match[1], $this->bindings)) {
                     $key = preg_replace('/' . $match[0] . '/', $this->bindings[$match[1]], $key, 1);
@@ -353,8 +379,8 @@ class MenuBuilder implements Countable
         if (func_num_args() == 3) {
             $arguments = func_get_args();
 
-            $title = array_get($arguments, 0);
-            $attributes = array_get($arguments, 2);
+            $title = Arr::get($arguments, 0);
+            $attributes = Arr::get($arguments, 2);
 
             $properties = compact('title', 'attributes');
         }
@@ -384,9 +410,9 @@ class MenuBuilder implements Countable
             $arguments = func_get_args();
 
             return $this->add([
-                'route' => [array_get($arguments, 0), array_get($arguments, 2)],
-                'title' => array_get($arguments, 1),
-                'attributes' => array_get($arguments, 3),
+                'route' => [Arr::get($arguments, 0), Arr::get($arguments, 2)],
+                'title' => Arr::get($arguments, 1),
+                'attributes' => Arr::get($arguments, 3),
             ]);
         }
 
@@ -430,9 +456,9 @@ class MenuBuilder implements Countable
             $arguments = func_get_args();
 
             return $this->add([
-                'url' => $this->formatUrl(array_get($arguments, 0)),
-                'title' => array_get($arguments, 1),
-                'attributes' => array_get($arguments, 2),
+                'url' => $this->formatUrl(Arr::get($arguments, 0)),
+                'title' => Arr::get($arguments, 1),
+                'attributes' => Arr::get($arguments, 2),
             ]);
         }
 
